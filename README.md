@@ -8,7 +8,7 @@ Write APIs to perform operations on the tables `userdetails`, `courier_tracking`
 
 | Column   | Type    |
 | -------- | ------- |
-| is       | INTEGER |
+| id       | INTEGER |
 | name     | TEXT    |
 | username | TEXT    |
 | password | TEXT    |
@@ -364,8 +364,10 @@ Returns the tracking details by passing tracking number as query parameter
     If the user deletes tracking
 
   - **Response**
+
     ```
     Tracking deleted successfully
+
     ```
 
 </Section>
