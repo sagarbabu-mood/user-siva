@@ -1,66 +1,34 @@
 # Twitter
 
-Given an `app.js` file and a database file `twitterClone.db` consisting of five tables `user`, `follower`, `tweet`, `reply`, and `like`.
+Given an `app.js` file and a database file `courierTracking.db` consisting of 2 tables `userdetails`, `courier_tracking`,
 
-Write APIs to perform operations on the tables `user`, `follower`, `tweet`, `reply`, and `like` containing the following columns,
+Write APIs to perform operations on the tables `userdetails`, `courier_tracking`, containing the following columns,
 
-**User Table**
+**userdetails Table**
 
 | Column   | Type    |
 | -------- | ------- |
-| user_id  | INTEGER |
+| is       | INTEGER |
 | name     | TEXT    |
 | username | TEXT    |
 | password | TEXT    |
 | gender   | TEXT    |
+| mail_id  | TEXT    |
 
-**Follower Table**
+**courier_tracking**
 
-| Column              | Type    |
-| ------------------- | ------- |
-| `follower_id`       | INTEGER |
-| `follower_user_id`  | INTEGER |
-| `following_user_id` | INTEGER |
+0|tracking_id|INTEGER|0||1
+1|tracking_number|VARCHAR|1||0
+2|courier_material|TEXT|0||0
+3|courier_status|VARCHAR|0||0
+4|location|VARCHAR|0||0
+5|courier_initiated_time|TIMESTAMP|0|CURRENT_TIMESTAMP|0
 
-Here, if user1 follows user2 then,
-
-`follower_user_id` is the user ID of user1 and `following_user_id` is the user ID of user2.
-
-**Tweet Table**
-
-| Column    | Type     |
-| --------- | -------- |
-| tweet_id  | INTEGER  |
-| tweet     | TEXT     |
-| user_id   | INTEGER  |
-| date_time | DATETIME |
-
-**Reply Table**
-
-| Column    | Type     |
-| --------- | -------- |
-| reply_id  | INTEGER  |
-| tweet_id  | INTEGER  |
-| reply     | TEXT     |
-| user_id   | INTEGER  |
-| date_time | DATETIME |
-
-**Like Table**
-
-| Column    | Type     |
-| --------- | -------- |
-| like_id   | INTEGER  |
-| tweet_id  | INTEGER  |
-| user_id   | INTEGER  |
-| date_time | DATETIME |
-
-#### Sample Valid User Credentials
-
-```
 {
-  "username":"JoeBiden",
-  "password":"biden@123"
+"username":"SivaNarayana150",
+"password":"Cat150@"
 }
+
 ```
 
 <Section id="section1" >
@@ -74,13 +42,17 @@ Here, if user1 follows user2 then,
 **Request**
 
 ```
+
 {
-  "username": "adam_richard",
-  "password": "richard_567",
-  "name": "Adam Richard",
-  "gender": "male"
+"username":"SivaNarayana150",
+"password":"Cat150@",
+"name":"Siva Narayana",
+"gender":"male",
+"mailId":"kollasivanarayana2003@gmail.com"
+
 }
-```
+
+````
 
 - **Scenario 1**
 
@@ -145,18 +117,19 @@ Here, if user1 follows user2 then,
 
 **Request**
 
-```
+````
+
 {
-  "username":"JoeBiden",
-  "password":"biden@123"
+"username":"SivaNarayana150",
+"password": "Cat150@"
 }
-```
 
 - **Scenario 1**
 
   - **Description**:
 
-    If the user doesn't have a Twitter account
+    If the user doesn't have a
+    tracking account
 
   - **Response**
     - **Status code**
@@ -233,25 +206,18 @@ Write a middleware to authenticate the JWT token.
 
 ### API 3
 
-#### Path: `/user/tweets/feed/`
+#### Path: `/user/following/`
 
-#### Method: `GET`
+#### Method: `POST`
 
 #### Description:
 
-Returns the latest tweets of people whom the user follows. Return 4 tweets at a time
+posts the new tracking
 
 #### Response
 
 ```
- [
-   {
-      username: "SrBachchan",
-      tweet: "T 3859 - do something wonderful, people may imitate it ..",
-      dateTime: "2021-04-07 14:50:19"
-   },
-   ...
- ]
+"new tracking is created successfuuly"
 ```
 
 </Section>
@@ -260,23 +226,35 @@ Returns the latest tweets of people whom the user follows. Return 4 tweets at a 
 
 ### API 4
 
-#### Path: `/user/following/`
+#### Path: '"/victamanservices/"'
 
 #### Method: `GET`
 
 #### Description:
 
-Returns the list of all names of people whom the user follows
+returns all the trackings data that couriered
 
 #### Response
 
 ```
-[
-  {
-    "name": "Narendra Modi"
-  },
-  ...
-]
+ [
+    {
+           "id":1
+     "trackingNumber":"H707567935",
+   "courierMaterial":"clothing",
+    "courierStatus":"In transit",
+    "location":"Vishakapatnam",
+    "courier_initiated_time": "2021-04-07 14:50:19"
+
+
+
+
+   },
+
+   ...
+
+   ...
+ ]
 ```
 
 </Section>
@@ -285,21 +263,31 @@ Returns the list of all names of people whom the user follows
 
 ### API 5
 
-#### Path: `/user/followers/`
+#### Path: `/victamanservices/tracking"`
 
 #### Method: `GET`
 
 #### Description:
 
-Returns the list of all names of people who follows the user
+Returns the tracking details by passing tracking number as query parameter
 
 #### Response
 
 ```
 [
-  {
-    "name": "Narendra Modi"
-  },
+     {
+           "id":1
+     "trackingNumber":"H707567935",
+   "courierMaterial":"clothing",
+    "courierStatus":"In transit",
+    "location":"Vishakapatnam",
+    "courier_initiated_time": "2021-04-07 14:50:19"
+
+
+
+
+   },
+
   ...
 ]
 ```
@@ -310,15 +298,15 @@ Returns the list of all names of people who follows the user
 
 ### API 6
 
-#### Path: `/tweets/:tweetId/`
+#### Path: `/victamanservices/:trackingId"`
 
-#### Method: `GET`
+#### Method: `PUT`
 
 - **Scenario 1**
 
   - **Description**:
 
-    If the user requests a tweet other than the users he is following
+    If the user requests tracking details with wrong id and update the tracking details
 
   - **Response**
     - **Status code**
@@ -334,15 +322,12 @@ Returns the list of all names of people who follows the user
 
   - **Description**:
 
-    If the user requests a tweet of the user he is following, return the tweet, likes count, replies count and date-time
+    If the user requests tracking details with correct id and update the tracking details
 
   - **Response**
     ```
     {
-       "tweet": "T 3859 - do something wonderful, people may imitate it ..",
-       "likes": 3,
-       "replies": 1,
-       "dateTime": "2021-04-07 14:50:19"
+      tracking is updated successfully
     }
     ```
 
@@ -350,149 +335,9 @@ Returns the list of all names of people who follows the user
 
 <Section id="section7">
 
-### API 7
-
-#### Path: `/tweets/:tweetId/likes/`
-
-#### Method: `GET`
-
-- **Scenario 1**
-
-  - **Description**:
-
-    If the user requests a tweet other than the users he is following
-
-  - **Response**
-    - **Status code**
-      ```
-      401
-      ```
-    - **Body**
-      ```
-      Invalid Request
-      ```
-
-- **Scenario 2**
-
-  - **Description**:
-
-    If the user requests a tweet of a user he is following, return the list of usernames who liked the tweet
-
-  - **Response**
-    ```
-    {
-       "likes": ["albert", ]
-    }
-    ```
-
-</Section>
-
-<Section id="section8">
-
-### API 8
-
-#### Path: `/tweets/:tweetId/replies/`
-
-#### Method: `GET`
-
-- **Scenario 1**
-
-  - **Description**:
-
-    If the user requests a tweet other than the users he is following
-
-  - **Response**
-    - **Status code**
-      ```
-      401
-      ```
-    - **Body**
-      ```
-      Invalid Request
-      ```
-
-- **Scenario 2**
-
-  - **Description**:
-
-    If the user requests a tweet of a user he is following, return the list of replies.
-
-  - **Response**
-
-        ```
-        {
-           "replies": [
-             {
-               "name": "Narendra Modi",
-               "reply": "When you see it.."
-              },
-            ...]
-        }
-        ```
-
-    </Section>
-
-<Section id="section9">
-
-### API 9
-
-#### Path: `/user/tweets/`
-
-#### Method: `GET`
-
-#### Description:
-
-Returns a list of all tweets of the user
-
-#### Response
-
-```
-[
-  {
-    "tweet": "Ready to don the Blue and Gold",
-    "likes": 3,
-    "replies": 4,
-    "dateTime": "2021-4-3 08:32:44"
-  },
-  ...
-]
-```
-
-</Section>
-
-<Section id="section10">
-
-### API 10
-
-#### Path: `/user/tweets/`
-
-#### Method: `POST`
-
-#### Description:
-
-Create a tweet in the tweet table
-
-#### Request
-
-```
-{
-   "tweet": "The Mornings..."
-}
-```
-
-#### Response
-
-```
-Created a Tweet
-```
-
-</Section>
-
-<Section id="section11">
-
 ### API 11
 
-#### Path: `/tweets/:tweetId/`
+#### Path: `/victamanservices/:trackingId`
 
 #### Method: `DELETE`
 
@@ -500,27 +345,27 @@ Created a Tweet
 
   - **Description**:
 
-    If the user requests to delete a tweet of other users
+    If the user requests to delete a tracking other than Authenticated user
 
   - **Response**
     - **Status code**
       ```
-      401
+      500
       ```
     - **Body**
       ```
-      Invalid Request
+      Internal Server Error
       ```
 
 - **Scenario 2**
 
   - **Description**:
 
-    If the user deletes his tweet
+    If the user deletes tracking
 
   - **Response**
     ```
-    Tweet Removed
+    Tracking deleted successfully
     ```
 
 </Section>
