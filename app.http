@@ -1,0 +1,23 @@
+POST http://localhost:3001/register/ 
+Content-Type: application/json 
+
+{
+    "username":"SivaNarayana150",
+    "password":"Cat150@",
+    "name":"Siva Narayana",
+    "gender":"male",
+    "mailId":"kollasivanarayana2003@gmail.com"
+
+}
+
+###
+
+POST http://localhost:3001/login/
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.U2l2YU5hcmF5YW5hMTUw.IQ9aNdAkMEvujzG4sTLBVmmoePOHZ9EgXrCTjw2_M0s
+Content-Type: application/json
+
+{
+    "username": "SivaNarayana150",
+    "password": "Cat150@"
+}
+###
