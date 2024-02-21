@@ -20,4 +20,52 @@ Content-Type: application/json
     "username": "SivaNarayana150",
     "password": "Cat150@"
 }
+
 ###
+
+POST http://localhost:3001/victamanservices/
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.U2l2YU5hcmF5YW5hMTUw.IQ9aNdAkMEvujzG4sTLBVmmoePOHZ9EgXrCTjw2_M0s
+Content-Type: application/json 
+
+{
+     "trackingNumber":"H707567935",
+   "courierMaterial":"clothing",
+    "courierStatus":"In transit",
+    "location":"Vishakapatnam"
+   
+}
+
+###
+
+
+GET http://localhost:3001/victamanservices/
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.U2l2YU5hcmF5YW5hMTUw.IQ9aNdAkMEvujzG4sTLBVmmoePOHZ9EgXrCTjw2_M0s
+
+###
+
+
+GET http://localhost:3001/victamanservices/tracking?trackingNumber=H707567946
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.U2l2YU5hcmF5YW5hMTUw.IQ9aNdAkMEvujzG4sTLBVmmoePOHZ9EgXrCTjw2_M0s 
+
+###
+
+PUT http://localhost:3001/victamanservices/1/
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.U2l2YU5hcmF5YW5hMTUw.IQ9aNdAkMEvujzG4sTLBVmmoePOHZ9EgXrCTjw2_M0s 
+
+{
+     "trackingNumber":"H707567946",
+   "courierMaterial":"clothing",
+    "courierStatus":"In transit",
+    "location":"Vishakapatnam"
+}
+
+###
+
+
+DELETE http://localhost:3001/victamanservices/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.U2l2YU5hcmF5YW5hMTUw.IQ9aNdAkMEvujzG4sTLBVmmoePOHZ9EgXrCTjw2_M0s 
+
+
+###
+
+

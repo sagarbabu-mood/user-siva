@@ -108,6 +108,8 @@ app.post("/register/", async (request, response) => {
   }
 });
 
+// user login Request
+
 app.post("/login/", async (request, response) => {
   const { username, password } = request.body;
   const fetchUserExistence = `SELECT * FROM userdetails WHERE username='${username}';`;
@@ -140,5 +142,121 @@ app.post("/login/", async (request, response) => {
     }
   }
 });
+
+//creating new courier
+
+app.post("/victamanservices/", Authentication, async (request, response) => {
+  try {
+    const {
+      trackingNumber,
+      courierMaterial,
+      courierStatus,
+      location,
+      courierInitiatedTime,
+    } = request.body;
+    const nweCourier = `
+    INSERT INTO courier_tracking (tracking_number,courier_material,courier_status,location,courier_initiated_time)
+    VALUES (
+        '${trackingNumber}',
+        '${courierMaterial}',
+        '${courierStatus}',
+        '${location}',
+        CURRENT_TIMESTAMP
+    );
+    `;
+
+    await db.run(nweCourier);
+    response.send("new tracking is created successfully");
+  } catch (error) {
+    response.status(500).send("provide valid data");
+  }
+});
+
+//retrieving all the trackings done
+
+app.get("/victamanservices/", Authentication, async (request, response) => {
+  try {
+    const allTrackingQuery = "SELECT * FROM courier_tracking";
+    const allTrackings = await db.all(allTrackingQuery);
+    response.send(allTrackings);
+  } catch (error) {
+    console.error("Error retrieving tracking data:", error);
+    response.status(500).send("Internal Server Error");
+  }
+});
+
+app.get(
+  "/victamanservices/tracking",
+  Authentication,
+  async (request, response) => {
+    try {
+      const { trackingNumber } = request.query;
+      console.log(trackingNumber);
+      const fetchByTrackingNumber = `SELECT * FROM courier_tracking WHERE tracking_number='${trackingNumber}';`;
+      const getTracking = await db.get(fetchByTrackingNumber);
+      response.status(200);
+      response.send(getTracking);
+    } catch (error) {
+      response.status(400);
+      response.send("Please Provide Valid Tracking Number");
+    }
+  }
+);
+
+//updating existing tracking
+
+app.put(
+  "/victamanservices/:trackingId",
+  Authentication,
+  async (request, response) => {
+    try {
+      const { trackingId } = request.params;
+      const {
+        trackingNumber,
+        courierMaterial,
+        courierStatus,
+        location,
+        courierInitiatedTime,
+      } = request.body;
+      const updateCourier = `
+    UPDATE  courier_tracking 
+    SET 
+        tracking_number='${trackingNumber}',
+        courier_material='${courierMaterial}',
+       courier_status= '${courierStatus}',
+       location= '${location}',
+       courier_initiated_time= CURRENT_TIMESTAMP
+       WHERE tracking_id=${trackingId}
+    ;
+    `;
+
+      await db.run(updateCourier);
+      response.send(" tracking is updated successfully");
+    } catch (error) {
+      response.status(500).send("make valid Request");
+    }
+  }
+);
+
+app.delete(
+  "/victamanservices/:trackingId",
+  Authentication,
+  async (request, response) => {
+    try {
+      const { trackingId } = request.params;
+      const deleteCourier = `
+        DELETE  FROM courier_tracking 
+        WHERE tracking_id = ${trackingId};
+      `;
+
+      await db.run(deleteCourier);
+      response.send("Tracking deleted successfully");
+    } catch (error) {
+      response.status(500).send("Internal Server Error");
+    }
+  }
+);
+
+//deleting tracking
 
 module.exports = app;
