@@ -1,4 +1,4 @@
-# Twitter
+# Courier
 
 Given an `app.js` file and a database file `courierTracking.db` consisting of 2 tables `userdetails`, `courier_tracking`,
 

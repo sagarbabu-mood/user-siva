@@ -1,6 +1,8 @@
 const express = require("express");
 const path = require("path");
 
+const cors = require("cors");
+
 const { open } = require("sqlite");
 const sqlite3 = require("sqlite3");
 
@@ -12,8 +14,14 @@ const app = express();
 
 app.use(express.json());
 
+app.use(cors());
 let db = "";
 
+const corsOptions = {
+  origin: "http://localhost:3000",
+};
+
+app.use(cors(corsOptions));
 //initialization of  database
 
 const initializationDataBaseServer = async () => {
@@ -101,10 +109,9 @@ app.post("/register/", async (request, response) => {
       response.send("Password must be more than  5 Characters");
     }
   } else {
-    response.status(400);
-    response.send("User Name Already Exists");
-
-    //warning user already exists
+    // Handle errors when the response is not ok
+    console.error("Failed to register user. Status:", response.status);
+    console.error("Response text:", await response.text()); // Log the response text
   }
 });
 
